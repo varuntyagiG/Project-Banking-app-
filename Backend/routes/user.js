@@ -10,7 +10,6 @@ const router = express.Router();
 
 // signup
 router.post("/signup", (req, res) => {
-  console.log(req.body);
   let { firstname, lastname, email, password } = req.body;
   let Validation = UserValidation.safeParse(req.body);
   if (Validation.success === false) res.send("Wrong input");
@@ -54,18 +53,23 @@ router.post("/signin", async (req, res) => {
   }
 });
 
+// update route
 router.put("/:id", Verification, async (req, res) => {
   let { id } = req.params;
-  let { firstname, lastname, email } = req.body;
+  let { firstname, lastname, password } = req.body;
   let ValidationForUpdate = Update.safeParse(req.body);
   if (ValidationForUpdate.success === false) res.send("Not valid info");
-
-  await User.findByIdAndUpdate(
-    { _id: id },
-    { $set: { firstname: firstname, lastname: lastname, email: email } },
-  );
-  res.json({
-    message: "Updated Sucessfully",
+  // -----------password ko hash karna chah rha hu update k time
+  bcrypt.genSalt(10, function (err, salt) {
+    bcrypt.hash(password, salt, async function (err, hash) {
+      await User.findByIdAndUpdate(
+        { _id: id },
+        { $set: { firstname: firstname, lastname: lastname, password: hash } },
+      );
+      res.json({
+        message: "Updated Sucessfully",
+      });
+    });
   });
 });
 
