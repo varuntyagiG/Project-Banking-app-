@@ -5,6 +5,7 @@ let User = require("../Db/db");
 let JWT_Secrat = "Varun";
 let UserValidation = require("../Zod/zod");
 let Verification = require("../Middlewares/Verify");
+const Update = require("../Zod/update");
 const router = express.Router();
 
 // signup
@@ -53,8 +54,19 @@ router.post("/signin", async (req, res) => {
   }
 });
 
-router.get("/important", Verification, (req, res) => {
-  res.send("Work Properly");
+router.put("/:id", Verification, async (req, res) => {
+  let { id } = req.params;
+  let { firstname, lastname, email } = req.body;
+  let ValidationForUpdate = Update.safeParse(req.body);
+  if (ValidationForUpdate.success === false) res.send("Not valid info");
+
+  await User.findByIdAndUpdate(
+    { _id: id },
+    { $set: { firstname: firstname, lastname: lastname, email: email } },
+  );
+  res.json({
+    message: "Updated Sucessfully",
+  });
 });
 
 module.exports = router;
