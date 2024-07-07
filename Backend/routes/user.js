@@ -59,7 +59,7 @@ router.put("/:id", Verification, async (req, res) => {
   let { firstname, lastname, password } = req.body;
   let ValidationForUpdate = Update.safeParse(req.body);
   if (ValidationForUpdate.success === false) res.send("Not valid info");
-  // -----------password ko hash karna chah rha hu update k time
+  // -- Use bcrypt to hash the password
   bcrypt.genSalt(10, function (err, salt) {
     bcrypt.hash(password, salt, async function (err, hash) {
       await User.findByIdAndUpdate(
