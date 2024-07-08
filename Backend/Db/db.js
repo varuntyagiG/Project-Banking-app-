@@ -6,10 +6,28 @@ mongoose
   .then(() => console.log("Database-Connected!"));
 
 const UserSchema = new Schema({
-  firstname: String,
-  lastname: String,
-  email: String,
-  password: String,
+  firstname: {
+    type: String,
+    required: true,
+    minLength: 3,
+    maxLength: 30,
+  },
+  lastname: {
+    type: String,
+    required: true,
+    minLength: 3,
+    maxLength: 30,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    lowercase: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
 });
 
 const User = mongoose.model("User", UserSchema);
