@@ -1,21 +1,22 @@
 const express = require("express");
 let jwt = require("jsonwebtoken");
+const User = require("../Db/db");
 let JWT_Secrat = "Varun";
 
-function Verification(req, res, next) {
-  let authHeader = req.headers.authorization;
+async function Verification(req, res, next) {
+  let token_Bearer = req.headers.authorization;
 
-  if (!authHeader || !authHeader.startsWith("Bearer")) res.status(403).json({});
+  if (!token_Bearer || !token_Bearer.startsWith("Bearer"))
+    res.status(403).json({});
 
-  const token = authHeader.split(" ")[1];
+  const token = token_Bearer.split(" ")[1];
 
-  try {
-    let decoded = jwt.verify(token, JWT_Secrat);
-    if (!decoded.email) res.send("User not verify");
-    next();
-  } catch (err) {
-    res.status(500).json({});
-  }
+  let UserDetails = jwt.verify(token, JWT_Secrat);
+  let email = UserDetails.email;
+  let userFind = await User.findOne({ email });
+  req.id = userFind._id; // pass id in req
+  console.log(req.id);
+  next();
 }
 
 module.exports = Verification;

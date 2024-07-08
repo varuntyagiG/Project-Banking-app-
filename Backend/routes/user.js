@@ -38,39 +38,46 @@ router.post("/signup", (req, res) => {
 // sign in
 router.post("/signin", async (req, res) => {
   let { email, password } = req.body;
-  let detail = await User.findOne({ email });
-  if (!detail) {
+  let detail_info = await User.findOne({ email });
+  if (!detail_info) {
     res.send("User not found");
   } else {
-    bcrypt.compare(password, detail.password, function (err, result) {
+    bcrypt.compare(password, detail_info.password, function (err, result) {
       if (result === true) {
         let token = jwt.sign({ email }, JWT_Secrat);
         res.json({
           token: token,
         });
+      } else {
+        res.json("Incorrect password");
       }
     });
   }
 });
 
 // update route
-router.put("/:id", Verification, async (req, res) => {
-  let { id } = req.params;
+router.put("/update", Verification, async (req, res) => {
   let { firstname, lastname, password } = req.body;
+  console.log(req.body);
   let ValidationForUpdate = Update.safeParse(req.body);
   if (ValidationForUpdate.success === false) res.send("Not valid info");
   // -- Use bcrypt to hash the password
   bcrypt.genSalt(10, function (err, salt) {
     bcrypt.hash(password, salt, async function (err, hash) {
       await User.findByIdAndUpdate(
-        { _id: id },
-        { $set: { firstname: firstname, lastname: lastname, password: hash } },
+        { _id: req.id }, // get from req object
+        { firstname: firstname, lastname: lastname, password: hash },
+        { new: true },
       );
       res.json({
         message: "Updated Sucessfully",
       });
     });
   });
+});
+
+router.get("/", Verification, (req, res) => {
+  res.json("hey");
 });
 
 module.exports = router;
