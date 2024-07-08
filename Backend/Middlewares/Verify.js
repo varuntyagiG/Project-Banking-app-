@@ -15,7 +15,6 @@ async function Verification(req, res, next) {
   let email = UserDetails.email;
   let userFind = await User.findOne({ email });
   req.id = userFind._id; // pass id in req
-  console.log(req.id);
   next();
 }
 

@@ -55,6 +55,15 @@ router.post("/signin", async (req, res) => {
   }
 });
 
+// get all the user from database
+router.get("/user", async (req, res) => {
+  let all_users = await User.find({}).select("-password");
+  console.log(all_users);
+  res.json({
+    Users: all_users,
+  });
+});
+
 // update route
 router.put("/update", Verification, async (req, res) => {
   let { firstname, lastname, password } = req.body;
@@ -76,8 +85,35 @@ router.put("/update", Verification, async (req, res) => {
   });
 });
 
-router.get("/", Verification, (req, res) => {
-  res.json("hey");
+// seaching user (for seacrching we use $regex) // regex take a string
+router.get("/searching", async (req, res) => {
+  const filter = req.query.filter ? String(req.query.filter) : "";
+  console.log(filter);
+  const users = await User.find({
+    $or: [
+      {
+        firstname: {
+          $regex: filter,
+          $options: "i",
+        },
+      },
+      {
+        lastname: {
+          $regex: filter,
+          $options: "i",
+        },
+      },
+    ],
+  });
+
+  res.json({
+    user: users.map((user) => ({
+      username: user.username,
+      firstName: user.firstname,
+      lastName: user.lastname,
+      _id: user._id,
+    })),
+  });
 });
 
 module.exports = router;
