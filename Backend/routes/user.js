@@ -9,30 +9,34 @@ const Update = require("../Zod/update");
 const router = express.Router();
 
 // signup
-router.post("/signup", (req, res) => {
-  let { firstname, lastname, email, password } = req.body;
-  let Validation = UserValidation.safeParse(req.body);
-  if (Validation.success === false) res.send("Wrong input");
+router.post("/signup", async (req, res) => {
+  try {
+    let { firstname, lastname, email, password } = req.body;
+    let Validation = UserValidation.safeParse(req.body);
+    if (Validation.success === false) res.send("Wrong Input");
 
-  const user = User.findOne({ email });
-  if (user._id) res.status(411).json("User Aready exists");
+    let find_user = await User.findOne({ email });
+    if (find_user) res.send("user already exists");
 
-  bcrypt.genSalt(10, function (err, salt) {
-    bcrypt.hash(password, salt, function (err, hash) {
-      let UserData = new User({
-        firstname: firstname,
-        lastname: lastname,
-        email: email,
-        password: hash,
+    bcrypt.genSalt(10, function (err, salt) {
+      bcrypt.hash(password, salt, async function (err, hash) {
+        let Add_user = new User({
+          firstname: firstname,
+          lastname: lastname,
+          email: email,
+          password: hash,
+        });
+        await Add_user.save();
       });
-      UserData.save();
     });
-  });
-  let token = jwt.sign({ email }, JWT_Secrat);
-  res.json({
-    message: "user created successfully",
-    token: token,
-  });
+    let token = jwt.sign({ email }, JWT_Secrat);
+    res.json({
+      message : "user created succesfully",
+      token: token,
+    });
+  } catch (err) {
+    res.json("error");
+  }
 });
 
 // sign in
@@ -114,5 +118,6 @@ router.get("/searching", async (req, res) => {
     })),
   });
 });
+//----
 
 module.exports = router;
