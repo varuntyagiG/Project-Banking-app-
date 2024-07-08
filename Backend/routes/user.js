@@ -85,16 +85,15 @@ router.put("/update", Verification, async (req, res) => {
   });
 });
 
-// seaching user (for seacrching we use $regex) // regex take a string
+// seaching user (for searching we use $regex) // regex take a string
 router.get("/searching", async (req, res) => {
-  const filter = req.query.filter ? String(req.query.filter) : "";
-  console.log(filter);
+  const filter = req.query.filter ? String(req.query.filter) : ""; // apply tertiary operator
   const users = await User.find({
     $or: [
       {
         firstname: {
           $regex: filter,
-          $options: "i",
+          $options: "i", // case insensitive
         },
       },
       {
