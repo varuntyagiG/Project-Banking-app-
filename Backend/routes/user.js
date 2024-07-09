@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 let jwt = require("jsonwebtoken");
 let User = require("../Db/db");
 let JWT_Secrat = "Varun";
-let UserValidation = require("../Zod/zod");
+let UserValidation = require("../Zod/UserValidation");
 let Verification = require("../Middlewares/Verify");
 const Update = require("../Zod/update");
 const router = express.Router();
@@ -13,10 +13,14 @@ router.post("/signup", async (req, res) => {
   try {
     let { firstname, lastname, email, password } = req.body;
     let Validation = UserValidation.safeParse(req.body);
-    if (Validation.success === false) res.send("Wrong Input");
-
+    if (Validation.success === false) {
+      return res.send("Wrong Input");
+    }
+  
     let find_user = await User.findOne({ email });
-    if (find_user) res.send("user already exists");
+    if (find_user) {
+      return res.send("user already exists");
+    }
 
     bcrypt.genSalt(10, function (err, salt) {
       bcrypt.hash(password, salt, async function (err, hash) {
@@ -35,7 +39,9 @@ router.post("/signup", async (req, res) => {
       token: token,
     });
   } catch (err) {
-    res.json("error");
+    res.status(500).json({
+      message : 'Internal Server Error'
+    })
   }
 });
 
