@@ -16,7 +16,7 @@ router.post("/signup", async (req, res) => {
     if (Validation.success === false) {
       return res.send("Wrong Input");
     }
-  
+
     let find_user = await User.findOne({ email });
     if (find_user) {
       return res.send("user already exists");
@@ -35,13 +35,13 @@ router.post("/signup", async (req, res) => {
     });
     let token = jwt.sign({ email }, JWT_Secrat);
     res.json({
-      message : "user created succesfully",
+      message: "user created succesfully",
       token: token,
     });
   } catch (err) {
     res.status(500).json({
-      message : 'Internal Server Error'
-    })
+      message: "Internal Server Error",
+    });
   }
 });
 
@@ -50,7 +50,7 @@ router.post("/signin", async (req, res) => {
   let { email, password } = req.body;
   let detail_info = await User.findOne({ email });
   if (!detail_info) {
-    res.send("User not found");
+    return res.send("User not found");
   } else {
     bcrypt.compare(password, detail_info.password, function (err, result) {
       if (result === true) {
@@ -77,9 +77,10 @@ router.get("/user", async (req, res) => {
 // update route
 router.put("/update", Verification, async (req, res) => {
   let { firstname, lastname, password } = req.body;
-  console.log(req.body);
   let ValidationForUpdate = Update.safeParse(req.body);
-  if (ValidationForUpdate.success === false) res.send("Not valid info");
+  if (ValidationForUpdate.success === false) {
+    return res.send("Not valid info");
+  }
   // -- Use bcrypt to hash the password
   bcrypt.genSalt(10, function (err, salt) {
     bcrypt.hash(password, salt, async function (err, hash) {
