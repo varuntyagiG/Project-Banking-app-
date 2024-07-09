@@ -5,6 +5,7 @@ mongoose
   .connect("mongodb://127.0.0.1:27017/Balance")
   .then(() => console.log("Database-Connected!"));
 
+// user schema
 const UserSchema = new Schema({
   firstname: {
     type: String,
@@ -25,4 +26,22 @@ const UserSchema = new Schema({
 
 const User = mongoose.model("User", UserSchema);
 
-module.exports = User;
+// acount schema -- we add two thing one is userId and other is Balance of your
+const acountSchema = new Schema({
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: User,
+    required: true,
+  },
+  balance: {
+    type: Number,
+    required: true,
+  },
+});
+
+const Account = mongoose.model("Account", acountSchema);
+
+module.exports = {
+  User,
+  Account,
+};

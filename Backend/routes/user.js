@@ -1,11 +1,11 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 let jwt = require("jsonwebtoken");
-let User = require("../Db/db");
 let JWT_Secrat = "Varun";
 let UserValidation = require("../Zod/UserValidation");
 let Verification = require("../Middlewares/Verify");
 const Update = require("../Zod/update");
+const { User, Account } = require("../Db/db");
 const router = express.Router();
 
 // signup
@@ -22,7 +22,7 @@ router.post("/signup", async (req, res) => {
       return res.send("user already exists");
     }
 
-    bcrypt.genSalt(10, function (err, salt) {
+    bcrypt.genSalt(10, async function (err, salt) {
       bcrypt.hash(password, salt, async function (err, hash) {
         let Add_user = new User({
           firstname: firstname,
@@ -31,14 +31,23 @@ router.post("/signup", async (req, res) => {
           password: hash,
         });
         await Add_user.save();
+
+        // ---- Creating account
+        let userId = Add_user._id;
+        await Account.create({
+          userId,
+          balance: Math.random() * 10000,
+        });
       });
     });
+
     let token = jwt.sign({ email }, JWT_Secrat);
     res.json({
       message: "user created succesfully",
       token: token,
     });
   } catch (err) {
+    console.log(err);
     res.status(500).json({
       message: "Internal Server Error",
     });
