@@ -4,15 +4,14 @@ const User = require("../Db/db");
 let JWT_Secrat = "Varun";
 
 async function Verification(req, res, next) {
+  let token_Bearer = req.headers.authorization;
+
+  if (!token_Bearer || !token_Bearer.startsWith("Bearer")) {
+    return res.status(403).json({});
+  }
+
+  const token = token_Bearer.split(" ")[1];
   try {
-    let token_Bearer = req.headers.authorization;
-
-    if (!token_Bearer || !token_Bearer.startsWith("Bearer")) {
-      return res.status(403).json({});
-    }
-
-    const token = token_Bearer.split(" ")[1];
-
     let UserDetails = jwt.verify(token, JWT_Secrat);
     if (UserDetails.email) {
       let email = UserDetails.email;

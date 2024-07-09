@@ -65,15 +65,6 @@ router.post("/signin", async (req, res) => {
   }
 });
 
-// get all the user from database
-router.get("/user", async (req, res) => {
-  let all_users = await User.find({}).select("-password");
-  console.log(all_users);
-  res.json({
-    Users: all_users,
-  });
-});
-
 // update route
 router.put("/update", Verification, async (req, res) => {
   let { firstname, lastname, password } = req.body;
@@ -118,7 +109,7 @@ router.get("/searching", async (req, res) => {
 
   res.json({
     user: users.map((user) => ({
-      username: user.username,
+      email: user.email,
       firstName: user.firstname,
       lastName: user.lastname,
       _id: user._id,
