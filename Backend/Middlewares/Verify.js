@@ -1,6 +1,6 @@
 const express = require("express");
 let jwt = require("jsonwebtoken");
-const User = require("../Db/db");
+const { User } = require("../Db/db");
 let JWT_Secrat = "Varun";
 
 async function Verification(req, res, next) {
@@ -24,6 +24,7 @@ async function Verification(req, res, next) {
       });
     }
   } catch (err) {
+    console.log(err);
     res.json("Token not verified");
   }
 }
