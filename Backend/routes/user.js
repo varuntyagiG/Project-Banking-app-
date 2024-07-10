@@ -13,7 +13,6 @@ router.post("/signup", async (req, res) => {
   try {
     let { firstname, lastname, email, password } = req.body;
     let Validation = UserValidation.safeParse(req.body);
-    console.log(Validation);
     if (Validation.success === false) {
       return res.send("Wrong Input");
     }
