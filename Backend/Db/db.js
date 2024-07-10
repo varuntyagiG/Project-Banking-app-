@@ -2,7 +2,9 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 mongoose
-  .connect("mongodb://127.0.0.1:27017/Balance")
+  .connect(
+    "mongodb+srv://Varun_Tyagi:varuntyagi@cluster0.eiochyn.mongodb.net/balance",
+  )
   .then(() => console.log("Database-Connected!"));
 
 // user schema
