@@ -1,11 +1,9 @@
 import axios from "axios";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Users } from "../Components/Users";
 import { Balance } from "../Components/Balance";
 
 export default function Dashboard() {
-  // let [balance, setbalance] = useState();
   let [users, setuser] = useState([]);
 
   useEffect(() => {
