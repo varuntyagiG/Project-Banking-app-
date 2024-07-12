@@ -20,40 +20,44 @@ export default function Signup() {
         <InputBox
           label="First Name"
           placeholder="Varun"
-          onchange={(e) => {
+          onChange={(e) => {
             setfirstname(e.target.value);
           }}
         />
         <InputBox
           label="Last Name"
           placeholder="Tyagi"
-          onchange={(e) => {
+          onChange={(e) => {
             setlastname(e.target.value);
           }}
         />
         <InputBox
           label="Email"
           placeholder="varuntyagi@gmail.com"
-          onchange={(e) => {
+          onChange={(e) => {
             setemail(e.target.value);
           }}
         />
         <InputBox
           label="Password"
           placeholder="123456"
-          onchange={(e) => {
+          onChange={(e) => {
             setpassword(e.target.value);
           }}
         />
         <Button
           label="SignUp"
-          onClick={() => {
-            axios.post("http://localhost:8000:/api/v1/user/signup", {
-              firstname,
-              lastname,
-              email,
-              password,
-            });
+          onClick={async () => {
+            let response = await axios.post(
+              "http://localhost:8000/api/v1/user/signup",
+              {
+                firstname,
+                lastname,
+                email,
+                password,
+              },
+            );
+            localStorage.setItem("Token", response.data.token);
           }}
         />
         <ButtonWarning
