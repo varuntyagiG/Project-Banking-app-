@@ -65,6 +65,7 @@ router.post("/signin", async (req, res) => {
       if (result === true) {
         let token = jwt.sign({ email }, JWT_Secrat);
         res.json({
+          message: "Succesfully signin",
           token: token,
         });
       } else {

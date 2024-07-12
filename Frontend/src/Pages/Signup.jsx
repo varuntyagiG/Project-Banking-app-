@@ -41,9 +41,6 @@ export default function Signup() {
           setpassword(e.target.value);
         }}
       />
-      <p>
-        Already have an account ? <Link to={"/signin"}>Signin</Link>
-      </p>
       <button
         onClick={async () => {
           let res = await axios.post(
@@ -60,6 +57,12 @@ export default function Signup() {
       >
         Sign-up
       </button>
+      <p>
+        Already have an account ?{" "}
+        <Link className="underline font-bold" to={"/signin"}>
+          Signin
+        </Link>
+      </p>
     </div>
   );
 }
