@@ -52,13 +52,14 @@ export default function Signup() {
               password,
             },
           );
-          localStorage.setItem("token", res.data.token); // store token in browzer local storage
+
+          localStorage.setItem("token", res.data.token);
         }}
       >
         Sign-up
       </button>
       <p>
-        Already have an account ?{" "}
+        Already have an account ?
         <Link className="underline font-bold" to={"/signin"}>
           Signin
         </Link>
