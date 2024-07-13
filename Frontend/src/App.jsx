@@ -4,6 +4,7 @@ import Signin from "./Pages/Signin";
 import Signup from "./Pages/Signup";
 import Dashboard from "./Pages/Dashboard";
 import SendMoney from "./Pages/SendMoney";
+import { Profile } from "./Components/Profile";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/signin" element={<Signin />}></Route>
           <Route path="/dashboard" element={<Dashboard />}></Route>
           <Route path="/send" element={<SendMoney />}></Route>
+          <Route path="/profile" element={<Profile />}></Route>
         </Routes>
       </BrowserRouter>
     </>

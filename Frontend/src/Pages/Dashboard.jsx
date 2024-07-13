@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Balance } from "../Components/Balance";
 import { Users } from "../Components/Users";
+import { AppBar } from "../Components/AppBar";
 
 export default function Dashboard() {
   let [users, setuser] = useState([]);
@@ -18,6 +19,7 @@ export default function Dashboard() {
 
   return (
     <div>
+      <AppBar />
       <Balance />
       <br />
       <div>
