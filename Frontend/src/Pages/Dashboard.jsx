@@ -20,7 +20,6 @@ export default function Dashboard() {
     <div>
       <Balance />
       <br />
-      <br />
       <div>
         <input
           type="text"

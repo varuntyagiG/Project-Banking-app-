@@ -20,7 +20,6 @@ router.post("/transfer", Verification, async (req, res) => {
 
   session.startTransaction();
   const { amount, to } = req.body;
-  console.log(req.body);
   let my_account = await Account.findOne({
     userId: req.id,
   }).session(session);
