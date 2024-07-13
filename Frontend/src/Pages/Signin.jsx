@@ -39,7 +39,7 @@ export default function Signin() {
         Sign in
       </button>
       <div>
-        Not have account ?{" "}
+        Not have account ?
         <Link to={"/signup"} className="underline font-bold">
           SignUp
         </Link>

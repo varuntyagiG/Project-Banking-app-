@@ -52,7 +52,10 @@ export default function Signup() {
               password,
             },
           );
-
+          // Store token in Browzer local storage
+          {
+            console.log(res.data.token);
+          }
           localStorage.setItem("token", res.data.token);
         }}
       >

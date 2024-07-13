@@ -1,6 +1,5 @@
 const express = require("express");
 let jwt = require("jsonwebtoken");
-const { User } = require("../Db/db");
 let JWT_Secrat = "Varun";
 
 async function Verification(req, res, next) {
@@ -13,15 +12,15 @@ async function Verification(req, res, next) {
   const token = token_Bearer.split(" ")[1];
   try {
     let UserDetails = jwt.verify(token, JWT_Secrat);
-    if (UserDetails.email) {
-      let email = UserDetails.email;
-      let userFind = await User.findOne({ email });
-      req.id = userFind._id; // pass id in req
-      next();
-    } else {
+    console.log(UserDetails);
+    if (!UserDetails) {
       return res.json({
         message: "User not verified",
       });
+    } else {
+      req.id = UserDetails.userId;
+      console.log(req.id);
+      next();
     }
   } catch (err) {
     console.log(err);

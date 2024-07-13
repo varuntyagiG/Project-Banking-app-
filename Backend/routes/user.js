@@ -10,36 +10,43 @@ const router = express.Router();
 
 // signup
 router.post("/signup", async (req, res) => {
-  let { firstname, lastname, email, password } = req.body;
-  let Validation = UserValidation.safeParse(req.body);
-  if (Validation.success === false) {
-    return res.send("Wrong Input");
+  try {
+    let { firstname, lastname, email, password } = req.body;
+    console.log(req.body);
+    let Validation = UserValidation.safeParse(req.body);
+    if (Validation.success === false) {
+      return res.send("Wrong Input");
+    }
+
+    let find_user = await User.findOne({ email });
+    if (find_user) {
+      return res.send("user already exists");
+    }
+
+    const password_hash = await bcrypt.hash(password, 10);
+    const user_create = await User.create({
+      firstname,
+      lastname,
+      email,
+      password: password_hash,
+    });
+
+    let userId = user_create._id;
+    await Account.create({
+      userId,
+      balance: Math.random() * 10000,
+    });
+
+    let token = jwt.sign({ email, userId }, JWT_Secrat);
+    res.json({
+      message: "user created succesfully",
+      token: token,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: "Internal Server error",
+    });
   }
-
-  let find_user = await User.findOne({ email });
-  if (find_user) {
-    return res.send("user already exists");
-  }
-
-  const password_hash = await bcrypt.hash(password, 10);
-  const user_create = await User.create({
-    firstname,
-    lastname,
-    email,
-    password: password_hash,
-  });
-
-  let userId = user_create._id;
-  await Account.create({
-    userId,
-    balance: Math.random() * 10000,
-  });
-
-  let token = jwt.sign({ email, id }, JWT_Secrat);
-  res.json({
-    message: "user created succesfully",
-    token: token,
-  });
 });
 
 // sign in
@@ -48,10 +55,10 @@ router.post("/signin", async (req, res) => {
     let { email, password } = req.body;
     let detail_info = await User.findOne({ email });
     if (!detail_info) return res.json("User not found");
-    let id = detail_info._id;
+    let userId = detail_info._id;
     const check = await bcrypt.compare(password, detail_info.password);
     if (check === true) {
-      let token = jwt.sign({ email, id }, JWT_Secrat);
+      let token = jwt.sign({ email, userId }, JWT_Secrat);
       res.json({
         message: "Sign Up succesfully",
         token,

@@ -11,7 +11,7 @@ function AppBar() {
           let token = localStorage.getItem("token");
           const user = jwtDecode(token);
           console.log(user);
-          navigate("/profile");
+          navigate("/profile?id=" + user.userId);
         }}
       >
         User-Profile
