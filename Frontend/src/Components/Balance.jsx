@@ -18,7 +18,11 @@ function Balance() {
         setbalance(res.data.balance);
       });
   }, []);
-  return <div>your amount :{balance}</div>;
+  return (
+    <div>
+      Your Amount : <b>{balance}</b>
+    </div>
+  );
 }
 
 export { Balance };
