@@ -53,9 +53,6 @@ export default function Signup() {
             },
           );
           // Store token in Browzer local storage
-          {
-            console.log(res.data.token);
-          }
           localStorage.setItem("token", res.data.token);
         }}
       >

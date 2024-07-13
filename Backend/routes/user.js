@@ -12,7 +12,6 @@ const router = express.Router();
 router.post("/signup", async (req, res) => {
   try {
     let { firstname, lastname, email, password } = req.body;
-    console.log(req.body);
     let Validation = UserValidation.safeParse(req.body);
     if (Validation.success === false) {
       return res.send("Wrong Input");
@@ -23,6 +22,7 @@ router.post("/signup", async (req, res) => {
       return res.send("user already exists");
     }
 
+    // to hash password
     const password_hash = await bcrypt.hash(password, 10);
     const user_create = await User.create({
       firstname,
@@ -31,6 +31,7 @@ router.post("/signup", async (req, res) => {
       password: password_hash,
     });
 
+    // create account
     let userId = user_create._id;
     await Account.create({
       userId,

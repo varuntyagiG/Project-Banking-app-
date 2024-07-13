@@ -19,11 +19,9 @@ async function Verification(req, res, next) {
       });
     } else {
       req.id = UserDetails.userId;
-      console.log(req.id);
       next();
     }
   } catch (err) {
-    console.log(err);
     res.json("Token not verified");
   }
 }

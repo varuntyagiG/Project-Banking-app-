@@ -10,7 +10,6 @@ function AppBar() {
         onClick={() => {
           let token = localStorage.getItem("token");
           const user = jwtDecode(token);
-          console.log(user);
           navigate("/profile?id=" + user.userId);
         }}
       >
