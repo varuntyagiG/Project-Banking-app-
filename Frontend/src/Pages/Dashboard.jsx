@@ -25,7 +25,7 @@ export default function Dashboard() {
       <div>
         <input
           type="text"
-          className="border-red-700 h-12 w-2/3"
+          className="h-10 w-2/3 p-3 rounded-3xl ml-56 border-2 border-gray-500"
           onChange={(e) => {
             setfilter(e.target.value);
           }}
