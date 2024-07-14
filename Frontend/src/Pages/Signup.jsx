@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Input from "../Components/input";
 import { useState } from "react";
 import axios from "axios";
@@ -8,6 +8,8 @@ export default function Signup() {
   let [lastname, setlastname] = useState("");
   let [email, setemail] = useState("");
   let [password, setpassword] = useState("");
+
+  let navigate = useNavigate();
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -56,6 +58,12 @@ export default function Signup() {
               );
               // Store token in Browzer local storage
               localStorage.setItem("token", res.data.token);
+              if (res.data.message === "user created succesfully") {
+                navigate("/dashboard");
+              } else {
+                alert("Wrong input / Enter Details");
+                navigate("/signUp");
+              }
             }}
           >
             Sign-up

@@ -1,11 +1,12 @@
 import { useState } from "react";
 import Input from "../Components/input";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Signin() {
   let [email, setemail] = useState("");
   let [password, setpassword] = useState("");
+  let navigate = useNavigate();
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -35,6 +36,15 @@ export default function Signin() {
                 },
               );
               localStorage.setItem("token", res.data.token);
+              if (
+                res.data.message === "User not found" ||
+                res.data.message === "wrong password"
+              ) {
+                alert("User not found / incorrect password");
+                navigate("/signin");
+              } else {
+                navigate("/dashboard");
+              }
             }}
           >
             Log in
