@@ -10,9 +10,9 @@ export default function Signup() {
   let [password, setpassword] = useState("");
 
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <div className="w-1/3 m-auto">
-        <div className="text-center bg-gray-200 rounded-2xl p-6 shadow-lg">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="w-1/3 m-auto bg-white p-6 rounded-lg shadow-2xl">
+        <div className="text-center">
           <h2 className="font-semibold text-3xl">Sign up</h2>
           <p className="text-gray-400 italic">
             Sign into your favorite bank app
@@ -62,7 +62,7 @@ export default function Signup() {
           </button>
           <p className="leading-10 text-lg">
             Already have an account ? &nbsp;
-            <Link className="underline italic font-bold" to={"/signin"}>
+            <Link className="underline  font-bold" to={"/signin"}>
               signin
             </Link>
           </p>

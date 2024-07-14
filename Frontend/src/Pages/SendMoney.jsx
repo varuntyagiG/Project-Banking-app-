@@ -9,46 +9,44 @@ export default function SendMoney() {
   let name = searchParams.get("name");
 
   return (
-    <div className="m-7">
-      <div className="bg-gray-400 w-1/3 p-24">
-        <h2>Send Money</h2>
-        <b>
-          <i></i>
-          {name}
-        </b>
-        <p>Amount in (Rs):{rupee}</p>
-        <br />
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="p-8 bg-white shadow-md w-96 rounded-2xl">
+        <div className="text-center">
+          <h2 className="font-semibold text-3xl mb-8">Send Money</h2>
+          To : <span className="text-lg font-medium"> {name}</span>
+          <p className="">Amount in (Rs): {rupee}</p>
+          <br />
+          <input
+            type="text"
+            className="border-2 border-gray-400 h-8 p-3 rounded-2xl"
+            onChange={(e) => {
+              setrupee(e.target.value);
+            }}
+          />
+          <br />
+          <br />
+          <button
+            className="h-9 w-36 rounded-xl bg-green-500"
+            onClick={async () => {
+              let authTokens = localStorage.getItem("token");
 
-        <input
-          type="text"
-          className="border-gray-500 bg-zinc-200 rounded-2xl"
-          onChange={(e) => {
-            setrupee(e.target.value);
-          }}
-        />
-        <br />
-        <br />
-        <button
-          className="bg-green-600 w-32 rounded-xl"
-          onClick={async () => {
-            let authTokens = localStorage.getItem("token");
-
-            await axios.post(
-              "http://localhost:8000/api/v1/accountrouter/transfer",
-              {
-                to: id,
-                amount: rupee,
-              },
-              {
-                headers: {
-                  Authorization: `Bearer ${authTokens}`,
+              await axios.post(
+                "http://localhost:8000/api/v1/accountrouter/transfer",
+                {
+                  to: id,
+                  amount: rupee,
                 },
-              },
-            );
-          }}
-        >
-          Invite Transfer
-        </button>
+                {
+                  headers: {
+                    Authorization: `Bearer ${authTokens}`,
+                  },
+                },
+              );
+            }}
+          >
+            Invite Transfer
+          </button>
+        </div>
       </div>
     </div>
   );

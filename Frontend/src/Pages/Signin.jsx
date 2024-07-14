@@ -11,7 +11,7 @@ export default function Signin() {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-6 rounded-lg shadow-lg">
         <div className="text-center">
-          <h2 className="font-semibold text-3xl">Log in</h2>
+          <h2 className="font-semibold text-3xl">Sign in</h2>
           <Input
             placeholder="Email"
             onChange={(e) => {
@@ -41,7 +41,7 @@ export default function Signin() {
           </button>
           <div className="leading-10 text-lg">
             Not have account ? &nbsp;
-            <Link to={"/signup"} className="underline font-semibold italic">
+            <Link to={"/signup"} className="underline font-semibold">
               signup
             </Link>
           </div>
