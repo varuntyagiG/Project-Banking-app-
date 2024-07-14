@@ -8,41 +8,44 @@ export default function Signin() {
   let [password, setpassword] = useState("");
 
   return (
-    <div>
-      <h2>Sign in</h2>
-      <Input
-        label="Email"
-        placeholder="abc@gmail.com"
-        onChange={(e) => {
-          setemail(e.target.value);
-        }}
-      />
-      <Input
-        label="Password"
-        placeholder="abc123"
-        onChange={(e) => {
-          setpassword(e.target.value);
-        }}
-      />
-      <button
-        onClick={async () => {
-          let res = await axios.post(
-            "http://localhost:8000/api/v1/user/signin",
-            {
-              email,
-              password,
-            },
-          );
-          localStorage.setItem("token", res.data.token);
-        }}
-      >
-        Sign in
-      </button>
-      <div>
-        Not have account ?
-        <Link to={"/signup"} className="underline font-bold">
-          SignUp
-        </Link>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="bg-white p-6 rounded-lg shadow-lg">
+        <div className="text-center">
+          <h2 className="font-semibold text-3xl">Log in</h2>
+          <Input
+            placeholder="Email"
+            onChange={(e) => {
+              setemail(e.target.value);
+            }}
+          />
+          <Input
+            placeholder="Password"
+            onChange={(e) => {
+              setpassword(e.target.value);
+            }}
+          />
+          <button
+            className="h-7 w-36 bg-green-500 rounded-2xl hover:bg-green-600"
+            onClick={async () => {
+              let res = await axios.post(
+                "http://localhost:8000/api/v1/user/signin",
+                {
+                  email,
+                  password,
+                },
+              );
+              localStorage.setItem("token", res.data.token);
+            }}
+          >
+            Log in
+          </button>
+          <div className="leading-10 text-lg">
+            Not have account ? &nbsp;
+            <Link to={"/signup"} className="underline font-semibold italic">
+              signup
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );
