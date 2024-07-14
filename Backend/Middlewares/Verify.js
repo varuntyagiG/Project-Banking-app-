@@ -12,7 +12,6 @@ async function Verification(req, res, next) {
   const token = token_Bearer.split(" ")[1];
   try {
     let UserDetails = jwt.verify(token, JWT_Secrat);
-
     if (!UserDetails) {
       return res.json({
         message: "User not verified",
