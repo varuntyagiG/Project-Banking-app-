@@ -58,11 +58,16 @@ export default function Signup() {
               );
               // Store token in Browzer local storage
               localStorage.setItem("token", res.data.token);
+              if (res.data.message === "Wrong Input") {
+                alert("Wrong input");
+                navigate("/signUp");
+              }
+              if (res.data.message === "user already exists") {
+                alert("User already exists");
+                navigate("/signUp");
+              }
               if (res.data.message === "user created succesfully") {
                 navigate("/dashboard");
-              } else {
-                alert("Wrong input / Enter Details");
-                navigate("/signUp");
               }
             }}
           >

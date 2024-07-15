@@ -1,12 +1,21 @@
 import axios from "axios";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import "./SendMoney.css";
 
 export default function SendMoney() {
   let [rupee, setrupee] = useState();
   const [searchParams] = useSearchParams();
   let id = searchParams.get("id");
   let name = searchParams.get("name");
+  const [loading, setLoading] = useState(false);
+
+  const handleClick = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  };
 
   return (
     <div className="flex items-center justify-center min-h-screen">
@@ -26,8 +35,9 @@ export default function SendMoney() {
           <br />
           <br />
           <button
-            className="h-9 w-36 rounded-xl bg-green-500"
+            className="h-9 w-36 rounded-xl bg-green-500 btn-with-spinner"
             onClick={async () => {
+              handleClick();
               let authTokens = localStorage.getItem("token");
 
               await axios.post(
@@ -44,7 +54,7 @@ export default function SendMoney() {
               );
             }}
           >
-            Invite Transfer
+            {loading ? <div className="spinner"></div> : "Invite Transfer"}
           </button>
         </div>
       </div>

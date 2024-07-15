@@ -5,6 +5,7 @@ function Profile() {
   let [firstname, setfirstname] = useState();
   let [lastname, setlastname] = useState();
   let [password, setpassword] = useState();
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="w-1/3 m-auto bg-white p-6 rounded-2xl shadow-lg">
@@ -38,7 +39,6 @@ function Profile() {
               setpassword(e.target.value);
             }}
           />
-          {console.log(firstname, lastname, password)}
           <br />
           <button
             className="bg-red-500 h-7 w-36 rounded-3xl"

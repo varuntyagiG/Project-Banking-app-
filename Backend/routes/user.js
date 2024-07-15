@@ -14,12 +14,16 @@ router.post("/signup", async (req, res) => {
     let { firstname, lastname, email, password } = req.body;
     let Validation = UserValidation.safeParse(req.body);
     if (Validation.success === false) {
-      return res.send("Wrong Input");
+      return res.send({
+        message: "Wrong Input",
+      });
     }
 
     let find_user = await User.findOne({ email });
     if (find_user) {
-      return res.send("user already exists");
+      return res.send({
+        message: "user already exists",
+      });
     }
 
     // to hash password
