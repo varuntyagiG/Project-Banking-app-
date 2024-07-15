@@ -26,7 +26,9 @@ router.post("/transfer", Verification, async (req, res) => {
 
   if (my_account.balance < amount) {
     await session.abortTransaction();
-    return res.status(400).json("Insufficient amount");
+    return res.json({
+      message: "Insufficient Money",
+    });
   }
 
   const toaccount = await Account.findOne({

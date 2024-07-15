@@ -40,7 +40,7 @@ export default function SendMoney() {
               handleClick();
               let authTokens = localStorage.getItem("token");
 
-              await axios.post(
+              let response = await axios.post(
                 "http://localhost:8000/api/v1/accountrouter/transfer",
                 {
                   to: id,
@@ -52,6 +52,10 @@ export default function SendMoney() {
                   },
                 },
               );
+              console.log(response);
+              if (response.data.message === "transfer Sucessfully") {
+                alert("transfer Sucessfully");
+              }
             }}
           >
             {loading ? <div className="spinner"></div> : "Invite Transfer"}
